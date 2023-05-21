@@ -1,0 +1,40 @@
+# after this, manually install:
+# ===========================
+# CLASS
+# ===========================
+# git clone https://github.com/lesgourg/class_public.git class
+# cd class
+# make CXX=g++-11 CC=gcc-11 # or whatever c++ compiler you have
+# ===========================
+# zeus21
+# ===========================
+# git clone https://github.com/julianbmunoz/zeus21.git zeus21
+# cd zeus21/
+# pip install .
+# ===========================
+# zreion
+# ===========================
+# git clone https://github.com/plaplant/zreion.git
+# cd zreion
+# pip install .
+name: gold_rush
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - cython
+  - jupyter
+  - numpy
+  - matplotlib
+  - scipy
+  - astropy
+  - emcee
+  - corner
+  - tqdm
+  - pygtc
+  - corner
+  - 21cmFAST
+  - pip
+  - pip:
+      - schwimmbad
