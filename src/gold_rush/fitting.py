@@ -10,7 +10,7 @@ def log_prior(params):
     h_fid = params[2]
     As = params[3]
     ns = params[4]
-    tau_fid = params[5]
+    #tau_fid = params[5]
 
     if 1.8e-09 < As < 2.5e-09:
         return 0.0
@@ -27,25 +27,37 @@ def log_probability(params, data, model, sigmas):
     if not np.isfinite(lp):
         return -np.inf
 
-    #t0 = time.time()
+    t0 = time.time()
     lklhd = log_likelihood(params, data, model, sigmas)
-    #tf = time.time()
-
+    tf = time.time()
+    print(f'{(tf-t0):.3f}', lp + lklhd)
     #print(f'likelihood evaluation took {(tf-t0):.3f} seconds with value {lp + lklhd}')
 
     return lp + lklhd
 
-def start_mcmc(truths, data, model, sigmas, nwalkers=36, nsteps=1e5, burn_in=50):
+def start_mcmc(truths, data, model, sigmas, backend=None,
+                    nwalkers=36, nsteps=1e5, burn_in=50):
     t0 = time.time()
     ndim = truths.size
-    print(f'running emcee for {nsteps} steps with {nwalkers} walkers now with multiprocessing!...')
-    backend = emcee.backends.HDFBackend('test.h5')
-    pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.randn(nwalkers, ndim)
 
-    sampler = emcee.EnsembleSampler(
-        nwalkers, ndim, log_probability,
-        backend=backend, args=(data, model, sigmas)
-    )
+    print(f'running emcee for {nsteps} steps with {nwalkers} walkers and {burn_in} burn in...')
+    pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.normal(scale=truths * np.ones((nwalkers, ndim)), size=(nwalkers, ndim))
+
+    if backend:
+        print(f'saving backend as {backend}')
+        backend = emcee.backends.HDFBackend(backend)
+
+        sampler = emcee.EnsembleSampler(
+            nwalkers, ndim, log_probability,
+            backend=backend, args=(data, model, sigmas)
+        )
+
+    else:
+        print('running without backend')
+        sampler = emcee.EnsembleSampler(
+            nwalkers, ndim, log_probability,
+            args=(data, model, sigmas)
+        )
     state = sampler.run_mcmc(pos, burn_in)
     sampler.reset()
     sampler.run_mcmc(state, nsteps)

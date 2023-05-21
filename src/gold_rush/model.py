@@ -14,7 +14,7 @@ class Model:
         self.h_fid = params[2]
         self.As = params[3]
         self.ns = params[4]
-        self.tau_fid = params[5]
+        #self.tau_fid = params[5]
 
         # create cosmoparams object to pass to classy
         self.CosmoParams_input = zeus21.Cosmo_Parameters_Input(
@@ -23,7 +23,8 @@ class Model:
                                             h_fid=self.h_fid,
                                             As=self.As,
                                             ns=self.ns,
-                                            tau_fid=self.tau_fid)
+            #                                tau_fid=self.tau_fid,
+                                            kmax_CLASS=300.0)
         self.z = z
         self.verbose = verbose
 
