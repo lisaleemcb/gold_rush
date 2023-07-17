@@ -1,10 +1,10 @@
-# after this, manually install:
+# after this, activate the env and manually install:
 # ===========================
 # CLASS
 # ===========================
 # git clone https://github.com/lesgourg/class_public.git class
 # cd class
-# make CXX=g++-11 CC=gcc-11 # or whatever c++ compiler you have
+# PYTHON=python make # or whatever c++ compiler you have
 # ===========================
 # zeus21
 # ===========================
