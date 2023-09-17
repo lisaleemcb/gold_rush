@@ -21,7 +21,7 @@ params = np.array([omegab, omegac, h_fid, As, ns])
 def mcmc_model(params):
     return Model(params, verbose=False).gen_PS21()
 
-k, data = np.load('../../docs/notebooks/zeus21_data_fiducial.npy')
+k, data = np.load('/jet/home/emcbride/packages/gold_rush/docs/notebooks/zeus21_data_fiducial.npy')
 
 sampler = gold_rush.fitting.start_mcmc(params, data, mcmc_model, .01 * data,
                                         nwalkers=params.size * 2,
