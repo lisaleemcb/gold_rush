@@ -41,6 +41,9 @@ def start_mcmc(truths, data, model, sigmas, backend=None,
     ndim = truths.size
     nsteps = int(nsteps)
 
+    print(f'ndim type is {type(ndim)}')
+    print(f'ndim type is {type(nsteps)}')
+
     print(f'running emcee for {nsteps} steps with {nwalkers} walkers and {burn_in} burn in...')
     pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.normal(scale=truths * np.ones((nwalkers, ndim)), size=(nwalkers, ndim))
 
