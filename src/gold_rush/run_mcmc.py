@@ -25,6 +25,7 @@ k, data = np.load('/jet/home/emcbride/packages/gold_rush/docs/notebooks/zeus21_d
 
 sampler = gold_rush.fitting.start_mcmc(params, data, mcmc_model, .01 * data,
                                         nwalkers=params.size * 2,
-                                        nsteps=1e4, burn_in=50)
+                                        nsteps=1e4, burn_in=50,
+                                        backend='text_samples')
 
 np.save('test_samples', sampler.get_chain())
