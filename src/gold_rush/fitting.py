@@ -37,7 +37,7 @@ def log_probability(params, data, model, sigmas):
 
 def start_mcmc(truths, data, model, sigmas, backend=None,
                     nwalkers=36, nsteps=1e5, burn_in=50):
-    t0 = time.time()
+
     ndim = truths.size
     nsteps = int(nsteps)
 
@@ -62,12 +62,18 @@ def start_mcmc(truths, data, model, sigmas, backend=None,
             nwalkers, ndim, log_probability,
             args=(data, model, sigmas)
         )
+
+    t0 = time.time()
     state = sampler.run_mcmc(pos, burn_in)
+    print('burn in complete. setting up for full run...')
+    tf = time.time()
+    print(f'mcmc burn in took {(tf-t0)/60/60:.3f} hours')
+
     sampler.reset()
-    sampler.run_mcmc(state, nsteps)
-
-    sampler.run_mcmc(pos, nsteps, progress=True)
-
+    print('beginning run...')
+    
+    t0 = time.time()
+    sampler.run_mcmc(state, nsteps, progress=True)
     tf = time.time()
     print(f'mcmc sampling took {(tf-t0)/60/60:.3f} hours')
 
