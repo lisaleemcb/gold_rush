@@ -20,6 +20,12 @@ def log_prior(params, truths, priors, priors_width):
     ns = params[4]
     #tau_fid = params[5]
 
+    if priors == 'uniform':
+        for i in range(params.size):
+            if np.abs(truths[i]) * .9  < params[i] < np.abs(truths[i]) * 1.1:
+                return 0.0
+            return -np.inf
+
     if priors == 'gaussian':
         priors_vals = np.zeros(params.size)
 
@@ -58,6 +64,7 @@ def start_mcmc(truths, data, model, sigmas,
 
     print(f'running emcee for {nsteps} steps with {nwalkers} walkers and {burn_in} burn in...')
     print(f'assuming {priors} priors...')
+    print(f'The log posterior of the truth is: {log_probability(params, truths, data, mcmc_model, .01 * data, 'gaussian', .1)}')
     pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.normal(scale=truths * np.ones((nwalkers, ndim)), size=(nwalkers, ndim))
 
     if backend:
