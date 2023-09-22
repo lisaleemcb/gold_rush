@@ -64,7 +64,7 @@ def start_mcmc(truths, data, model, sigmas,
 
     print(f'running emcee for {nsteps} steps with {nwalkers} walkers and {burn_in} burn in...')
     print(f'assuming {priors} priors...')
-    print('The log posterior of the truth is:', log_probability(truths, truths, data, mcmc_model, .01 * data, 'gaussian', .1))
+    print('The log posterior of the truth is:', log_probability(truths, truths, data, model, .01 * data, 'gaussian', .1))
     pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.normal(scale=truths * np.ones((nwalkers, ndim)), size=(nwalkers, ndim))
 
     if backend:
