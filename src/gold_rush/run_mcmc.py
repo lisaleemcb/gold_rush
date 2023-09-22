@@ -23,7 +23,7 @@ def mcmc_model(params):
 
 k, data = np.load('/jet/home/emcbride/packages/gold_rush/docs/notebooks/zeus21_data_fiducial.npy')
 
-print(f'The log posterior of the truth is: {log_probability(params, data, mcmc_model, .01 * data)}}')
+print(f'The log posterior of the truth is: {log_probability(params, data, mcmc_model, .01 * data)}')
 
 sampler = gold_rush.fitting.start_mcmc(params, data, mcmc_model, .01 * data,
                                         nwalkers=params.size * 2,
