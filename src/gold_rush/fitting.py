@@ -26,7 +26,7 @@ def log_prior(params, truths, priors, priors_width):
                 return 0.0
             return -np.inf
 
-    if priors == 'Planck'
+    if priors == 'Planck':
         omegabh2_Planck = 0.02237
         omegabh2_sigma = 0.00014
 
@@ -59,7 +59,7 @@ def log_prior(params, truths, priors, priors_width):
         if (ns_Planck - ns_sigma) < ns < (ns_Planck + ns_sigma):
             print(ns)
             return 0.0
-            
+
         return -np.inf
 
     if priors == 'gaussian':
