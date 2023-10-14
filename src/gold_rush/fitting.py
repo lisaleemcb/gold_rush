@@ -26,6 +26,42 @@ def log_prior(params, truths, priors, priors_width):
                 return 0.0
             return -np.inf
 
+    if priors == 'Planck'
+        omegabh2_Planck = 0.02237
+        omegabh2_sigma = 0.00014
+
+        omegach2_Planck = 0.11933
+        omegach2_sigma = 0.00091
+
+        H_0_Planck = 67.66
+        H_0_sigma = .42
+        h_Planck = H_0_Planck / 100
+        h_sigma = H_0_sigma / 100
+
+        ln1010As_Planck = 3.047
+        ln1010As_sigma = 0.014
+
+        ns_Planck = 0.9665
+        ns_sigma = 0.0038
+
+        if (omegabh2_Planck - omegabh2_sigma) < omegab * h_fid**2 < (omegabh2_Planck + omegabh2_sigma):
+            print(omegab * h_fid**2)
+            return 0.0
+        if (omegach2_Planck - omegach2_sigma) < omegac * h_fid**2 < (omegach2_Planck + omegach2_sigma):
+            print(omegac * h_fid**2)
+            return 0.0
+        if (ln1010As_Planck - ln1010As_sigma) < np.log(10**10 * As) < (ln1010As_Planck + ln1010As_sigma):
+            print(np.log(10**10 * As))
+            return 0.0
+        if (h_Planck - h_sigma) < h_fid < (h_Planck + h_sigma):
+            print(h_fid)
+            return 0.0
+        if (ns_Planck - ns_sigma) < ns < (ns_Planck + ns_sigma):
+            print(ns)
+            return 0.0
+            
+        return -np.inf
+
     if priors == 'gaussian':
         priors_vals = np.zeros(params.size)
 
