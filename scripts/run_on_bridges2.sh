@@ -13,5 +13,7 @@ date
 # run the Unix 'date' command
 echo "Hello world, from Bridges-2!"
 # run the Unix 'echo' command
+module load anaconda3
+mamba init
 mamba activate gold_rush
 python /jet/home/emcbride/packages/gold_rush/src/gold_rush/run_mcmc.py
