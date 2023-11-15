@@ -22,12 +22,13 @@ def mcmc_model(params):
     return Model(params, verbose=False).gen_PS21()
 
 #k, data = np.load('../../docs/notebooks/zeus21_data_fiducial.npy')
-k, data = np.load('/jet/home/emcbride/packages/gold_rush/data/zeus21_data_fiducial.npy')
+#k, data = np.load('/jet/home/emcbride/packages/gold_rush/data/zeus21_data_fiducial.npy')
+k, data = mcmc_model(params)
 
 sampler = gold_rush.fitting.start_mcmc(params, data, mcmc_model, .01 * data,
                                         nwalkers=params.size * 2,
                                         nsteps=1e4, burn_in=50,
-                                        backend='text_samples.h5',
+                                        backend=None,
                                         priors='Planck')
 
 np.save('test_samples', sampler.get_chain())
