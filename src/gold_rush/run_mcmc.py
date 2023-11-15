@@ -23,7 +23,11 @@ def mcmc_model(params):
 
 #k, data = np.load('../../docs/notebooks/zeus21_data_fiducial.npy')
 #k, data = np.load('/jet/home/emcbride/packages/gold_rush/data/zeus21_data_fiducial.npy')
-k, data = mcmc_model(params)
+k = Model(params, verbose=False).klist
+data = mcmc_model(params)
+
+print(f'k is {k}')
+print(f'data is {data}')
 
 sampler = gold_rush.fitting.start_mcmc(params, data, mcmc_model, .01 * data,
                                         nwalkers=params.size * 2,
