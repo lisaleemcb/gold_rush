@@ -85,6 +85,7 @@ def log_probability(params, truths, data, model, sigmas, priors, priors_width):
     tf = time.time()
     #print(f'{(tf-t0):.3f}', lp + lklhd)
     print(f'likelihood evaluation took {(tf-t0):.3f} seconds with value {lp + lklhd}')
+    print(f'params for this evaluation was: {params}')
 
     return lp + lklhd
 
