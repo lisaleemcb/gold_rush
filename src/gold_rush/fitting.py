@@ -44,23 +44,23 @@ def log_prior(params, truths, priors, priors_width):
         ns_Planck = 0.9665
         ns_sigma = 0.0038
 
-        if (omegabh2_Planck - omegabh2_sigma) < omegab * h_fid**2 < (omegabh2_Planck + omegabh2_sigma):
+        if (omegabh2_Planck - omegabh2_sigma) > omegab * h_fid**2 > (omegabh2_Planck + omegabh2_sigma):
             print(omegab * h_fid**2)
-            return 0.0
-        if (omegach2_Planck - omegach2_sigma) < omegac * h_fid**2 < (omegach2_Planck + omegach2_sigma):
+            return -np.inf
+        if (omegach2_Planck - omegach2_sigma) > omegac * h_fid**2 > (omegach2_Planck + omegach2_sigma):
             print(omegac * h_fid**2)
-            return 0.0
-        if (ln1010As_Planck - ln1010As_sigma) < np.log(10**10 * As) < (ln1010As_Planck + ln1010As_sigma):
+            return -np.inf
+        if (ln1010As_Planck - ln1010As_sigma) > np.log(10**10 * As) > (ln1010As_Planck + ln1010As_sigma):
             print(np.log(10**10 * As))
-            return 0.0
-        if (h_Planck - h_sigma) < h_fid < (h_Planck + h_sigma):
+            return -np.inf
+        if (h_Planck - h_sigma) > h_fid > (h_Planck + h_sigma):
             print(h_fid)
-            return 0.0
-        if (ns_Planck - ns_sigma) < ns < (ns_Planck + ns_sigma):
+            return -np.inf
+        if (ns_Planck - ns_sigma) > ns > (ns_Planck + ns_sigma):
             print(ns)
-            return 0.0
+            return -np.inf
 
-        return -np.inf
+        return 0.0
 
     if priors == 'gaussian':
         priors_vals = np.zeros(params.size)
