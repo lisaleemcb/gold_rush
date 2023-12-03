@@ -54,7 +54,7 @@ def log_prior(params, truths, priors, priors_width):
             print(np.log(10**10 * As))
             return -np.inf
         if (h_Planck - h_sigma) > h_fid > (h_Planck + h_sigma):
-            print(h_fid)
+            print(f'h_fid was outside the priors at h_fid={h_fid}')
             return -np.inf
         if (ns_Planck - ns_sigma) > ns > (ns_Planck + ns_sigma):
             print(ns)
@@ -77,6 +77,7 @@ def log_likelihood(params, data, model, sigmas):
 
 def log_probability(params, truths, data, model, sigmas, priors, priors_width):
     lp = log_prior(params, truths, priors, priors_width)
+    print(f'the prior contribution was {lp}')
     if not np.isfinite(lp):
         return -np.inf
 
@@ -101,7 +102,7 @@ def start_mcmc(truths, data, model, sigmas,
 
     print(f'running emcee for {nsteps} steps with {nwalkers} walkers and {burn_in} burn in...')
     print(f'assuming {priors} priors...')
-    print('The log posterior of the truth is:', log_probability(truths, truths, data, model, .01 * data, 'gaussian', .1))
+    print('The log posterior of the truth is:', log_probability(truths, truths, data, model, .01 * data, priors, .1))
     pos = truths * np.ones((nwalkers, ndim)) + 1e-10 * np.random.normal(scale=truths * np.ones((nwalkers, ndim)), size=(nwalkers, ndim))
 
     if backend:
