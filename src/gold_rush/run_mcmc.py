@@ -18,6 +18,11 @@ ns=0.9660499
 
 params = np.array([omegab, omegac, h_fid, As, ns])
 
+H_0_Planck = 67.66
+H_0_sigma = .42
+h_Planck = H_0_Planck / 100
+h_sigma = H_0_sigma / 100
+
 def mcmc_model(params):
     return Model(params, verbose=False).gen_PS21()
 
