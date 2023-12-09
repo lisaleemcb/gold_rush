@@ -44,10 +44,10 @@ def log_prior(params, truths, priors, priors_width):
         ns_Planck = 0.9665
         ns_sigma = 0.0038
 
-        if (omegabh2_Planck - omegabh2_sigma) > omegab * h_fid**2 or omegab * h_fid**2 > (omegabh2_Planck + omegabh2_sigma):
+        if (omegabh2_Planck - omegabh2_sigma) > omegab or omegab > (omegabh2_Planck + omegabh2_sigma):
             print(omegab * h_fid**2)
             return -np.inf
-        if (omegach2_Planck - omegach2_sigma) > omegac * h_fid**2 or omegac * h_fid**2 > (omegach2_Planck + omegach2_sigma):
+        if (omegach2_Planck - omegach2_sigma) > omegac or omegac > (omegach2_Planck + omegach2_sigma):
             print(omegac * h_fid**2)
             return -np.inf
         if (ln1010As_Planck - ln1010As_sigma) > np.log(10**10 * As) or np.log(10**10 * As) > (ln1010As_Planck + ln1010As_sigma):
@@ -56,7 +56,7 @@ def log_prior(params, truths, priors, priors_width):
         if (h_Planck - h_sigma) > h_fid or h_fid > (h_Planck + h_sigma):
             print(f'h_fid was outside the priors at h_fid={h_fid}')
             return -np.inf
-        if (ns_Planck - ns_sigma) > ns or ns > (ns_Planck + ns_sigma):
+        if (ns_Planck - ns_sigma) < ns or ns > (ns_Planck + ns_sigma):
             print(ns)
             return -np.inf
 
