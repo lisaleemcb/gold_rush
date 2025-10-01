@@ -1,0 +1,39 @@
+# after this, activate the env and manually install:
+# ===========================
+# CLASS
+# ===========================
+# git clone https://github.com/lesgourg/class_public.git class
+# cd class
+# PYTHON=python make # or whatever c++ compiler you have
+# ===========================
+# zeus21
+# ===========================
+# git clone https://github.com/julianbmunoz/zeus21.git zeus21
+# cd zeus21/
+# pip install .
+# ===========================
+# zreion
+# ===========================
+# git clone https://github.com/plaplant/zreion.git
+# cd zreion
+# pip install .
+name: gold_rush
+
+python
+cython
+jupyter
+numpy
+matplotlib
+scipy
+astropy
+emcee
+corner
+tqdm
+pygtc
+corner
+pyfftw
+gsl
+fftw
+schwimmbad
+21cmFAST
+powerbox
