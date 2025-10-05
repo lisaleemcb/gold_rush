@@ -7,7 +7,7 @@ import zeus21
 #set up the CLASS cosmology
 from classy import Class
 
-class Model:
+class Signal21cm:
     def __init__(self, params, z=13, verbose=False):
         self.omegab = params[0]
         self.omegac = params[1]
@@ -16,15 +16,16 @@ class Model:
         self.ns = params[4]
         #self.tau_fid = params[5]
 
+        self.strength = .1
+
         # create cosmoparams object to pass to classy
         self.CosmoParams_input = zeus21.Cosmo_Parameters_Input(
                                             omegab=self.omegab,
                                             omegac=self.omegac,
                                             h_fid=self.h_fid,
                                             As=self.As,
-                                            ns=self.ns,
-            #                                tau_fid=self.tau_fid,
-                                            kmax_CLASS=300.0)
+                                            ns=self.ns)
+            #                                tau_fid=self.tau_fid)
         self.z = z
         self.verbose = verbose
 
@@ -36,28 +37,28 @@ class Model:
             t0 = time.time()
             print('CLASS has run, we store the cosmology.')
 
-        self.CosmoParams = zeus21.Cosmo_Parameters(self.CosmoParams_input,
+        self.UserParams = zeus21.User_Parameters(precisionboost=1.2)
+        self.CosmoParams = zeus21.Cosmo_Parameters(self.UserParams, self.CosmoParams_input,
                                                    self.ClassyCosmo)
-        self.CorrFClass = zeus21.Correlations(self.CosmoParams, self.ClassyCosmo)
+        
+        self.CorrFClass = zeus21.Correlations(self.UserParams, self.CosmoParams, self.ClassyCosmo)
         if verbose:
             print('Correlation functions saved.')
-        self.HMFintclass = zeus21.HMF_interpolator(self.CosmoParams, self.ClassyCosmo)
+
+        self.HMFintclass = zeus21.HMF_interpolator(self.UserParams, self.CosmoParams, self.ClassyCosmo)
         if verbose:
             print('HMF interpolator built. This ends the cosmology part -- moving to astrophysics.')
 
-        #set up your astro parameters too, here the peak of f*(Mh) as an example
-        self.AstroParams = zeus21.Astro_Parameters(self.CosmoParams)
-
-        ZMIN = 10.0 #down to which z we compute the evolution
-        self.CoeffStructure = zeus21.get_T21_coefficients(self.CosmoParams, self.ClassyCosmo,
-                                        self.AstroParams, self.HMFintclass, zmin=ZMIN)
+        self.AstroParams = zeus21.Astro_Parameters(self.UserParams, self.CosmoParams)
+        self.CoeffStructure = zeus21.get_T21_coefficients(self.UserParams, self.CosmoParams, self.ClassyCosmo,
+                                        self.AstroParams, self.HMFintclass)
         if verbose:
             print('SFRD and coefficients stored. Move ahead.')
 
         self.zlist = self.CoeffStructure.zintegral
         RSDMODE = 1 #which RSD mode you want, 0 is no RSDs (real space), 1 is spherical (as simulations usually take), 2 is mu~1 (outside the wedge, most relevant for observations)
-        self.PS21 = zeus21.Power_Spectra(self.CosmoParams, self.ClassyCosmo, self.CorrFClass,
-         self.CoeffStructure, RSD_MODE = RSDMODE)
+        self.PS21 = zeus21.Power_Spectra(self.UserParams, self.CosmoParams, self.AstroParams,
+                                         self.ClassyCosmo, self.CorrFClass, self.CoeffStructure, RSD_MODE = RSDMODE)
         self.klist = self.PS21.klist_PS
 
         if verbose:
@@ -65,7 +66,12 @@ class Model:
             tf = time.time()
             print(f'took {(tf-t0):.3f} seconds')
 
-    def gen_PS21(self):
+    def gen_PS21(self, ):
+        _iz = min(range(len(self.zlist)), key=lambda i: np.abs(self.zlist[i]-self.z))
+
+        return self.PS21.Deltasq_T21[_iz]
+    
+    def make_obs(self, ):
         _iz = min(range(len(self.zlist)), key=lambda i: np.abs(self.zlist[i]-self.z))
 
         return self.PS21.Deltasq_T21[_iz]

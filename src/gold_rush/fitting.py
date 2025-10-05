@@ -91,7 +91,7 @@ def log_probability(params, truths, data, model, sigmas, priors, priors_width):
     return lp + lklhd
 
 def start_mcmc(truths, data, model, sigmas,
-                priors='gaussian', priors_width=.1,
+                priors='gaussian', priors_width=.1, progress=True,
                 backend=None, nwalkers=36, nsteps=1e5, burn_in=50):
 
     ndim = truths.size
@@ -117,7 +117,7 @@ def start_mcmc(truths, data, model, sigmas,
     else:
         print('running without backend')
         sampler = emcee.EnsembleSampler(
-            nwalkers, ndim, log_probability,
+            nwalkers, ndim, log_probability, 
             args=(truths, data, model, sigmas, priors, priors_width)
         )
 
@@ -131,7 +131,7 @@ def start_mcmc(truths, data, model, sigmas,
     print('beginning run...')
 
     t0 = time.time()
-    sampler.run_mcmc(state, nsteps, progress=True)
+    sampler.run_mcmc(state, nsteps, progress=progress)
     tf = time.time()
     print(f'mcmc sampling took {(tf-t0)/60/60:.3f} hours')
 

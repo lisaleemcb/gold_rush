@@ -34,7 +34,11 @@ dependencies:
   - tqdm
   - pygtc
   - corner
-  - 21cmFAST
+  - pyfftw
+  - gsl
+  - fftw
   - pip
   - pip:
       - schwimmbad
+      - 21cmFAST
+      - powerbox
