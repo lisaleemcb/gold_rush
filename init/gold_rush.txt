@@ -18,7 +18,6 @@
 # cd zreion
 # pip install .
 
-python
 cython
 jupyter
 numpy
@@ -29,9 +28,7 @@ emcee
 corner
 tqdm
 pygtc
-corner
 pyfftw
-gsl
 fftw
 schwimmbad
 21cmFAST
