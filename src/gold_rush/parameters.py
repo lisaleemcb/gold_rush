@@ -1,0 +1,1 @@
+colors = ['green', 'blue', 'plum', 'goldenrod', 'midnightblue', 'deeppink', 'tomato']
